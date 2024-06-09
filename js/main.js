@@ -72,11 +72,6 @@ marketYerba.push(new nuevaYerba("Aromatizada", "1500", 11, 1400));
 
 
 
-// Aca Deberiamos hacer una funcion que controle el stock de todos los tipos de Yerba que tenemos, sino que los elimine del array para no ofrecerlas
-
-
-
-
 //Aca seleccionamos la yerba a llevar
 
 while (true) {
@@ -84,7 +79,6 @@ while (true) {
     prompt(
       `Ingrese el nombre de la yerba que desea comprar:\n\n${marketYerba[0].nombre}\n${marketYerba[3].nombre}\n${marketYerba[6].nombre}\n\n`
     )
-
   );
 
   const yerbaSeleccionada = marketYerba.find(
@@ -93,8 +87,7 @@ while (true) {
 
   if (yerbaSeleccionada) {
     console.log(`¡${tipoYerba} seleccionada!`);
-    // Aca deberiamos agregarla al Array
-    break; // Rompemos el bucle.
+    break; 
   } else {
     alert(
       `El nombre ingresado de Yerba "${tipoYerba}", no corresponde a ninguna de las opciones. Por favor, ingrese un nombre válido.`
@@ -113,13 +106,9 @@ while (true) {
     (yerba) => yerba.tamaño === yerbaTamaño
   );
 
-
   if (tamañoSeleccionado) {
     console.log(`¡${yerbaTamaño} seleccionada!`);
-
-
-    // O aca deberiamos agregarla al Array
-    break; // Rompemos el bucle.
+    break; 
   } else {
     alert(
       `El tamaño ingresado "${yerbaTamaño}" no corresponde a ninguna de las opciones. Por favor, ingrese un nombre válido.`
@@ -131,12 +120,11 @@ while (true) {
 //Aca seleccionamos la cantidad a comprar
 
 while (true) {
-
   // Con este codigo vamos a entrar al objeto seleccionado y mostrar la cantidad disponible
 marketYerba.forEach(element => {
   if (element.nombre == tipoYerba && element.tamaño == yerbaTamaño) {
       numeroObjeto = element;
-      /* alert(`El numero de objeto es ${numeroObjeto} el ${element.nombre} y ${element.tamaño} y ${element.cantidad}`); */
+     
   }
 });
 
@@ -145,15 +133,9 @@ marketYerba.forEach(element => {
       `Contamos con la cantidad de ${numeroObjeto.cantidad} unidades, de la yerba ${tipoYerba} de ${yerbaTamaño}g. Ingrese la cantidad que desea llevar:\n\n`
     );
 
-/*   const tamañoSeleccionado = marketYerba.find(
-    (yerba) => yerba.tamaño === yerbaTamaño
-  ); */
-
-
   if (yerbaCantidad <= numeroObjeto.cantidad) {
     console.log(`¡${yerbaCantidad} unidades seleccionada/s!`);
-    // O aca deberiamos agregarla al Array
-    break; // Rompemos el bucle.
+    break; 
   } else {
     alert(
       `La cantidad ingresada de "${yerbaCantidad}" unidades, supera a nuestro stock actual. Ingrese una cantidad igual o menor a la disponible.`
@@ -176,4 +158,4 @@ console.log(compraCliente);
 
     alert(`Felicitaciones por comprar ${obj.cantidad} unidad/es de yerba ${obj.nombre} de ${obj.tamaño}g por un precio de $${obj.precio} cada una.\n\nEl total de tus productos es de $${sumaProductos}.\n\nEl total de tus productos con IVA es de $${totalConIva}.`);
   });
-//La suma del iva esta mal
+
