@@ -2,6 +2,7 @@
 let tipoYerba;
 let yerbaTamaño;
 let yerbaCantidad;
+let cantidadSeleccionada;
 
 //Arrays
 const marketYerba = [];
@@ -22,140 +23,131 @@ const suma = (numeroUno, numeroDos) => {
 
 function capitalizeFirstLetter(word) {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-};
+}
 
 //Constructor Objetos
 class nuevaYerba {
-  constructor(nombre, tamaño, cantidad, precio) {
+  constructor(nombre, tamaño, precio, cantidad) {
     this.nombre = nombre;
     this.tamaño = tamaño;
-    this.cantidad = cantidad;
     this.precio = precio;
+    this.cantidad = cantidad;
     this.stock = true;
   }
+}
 
-  controlarStock() {
-    if (cantidad >= 0) {
-      alert(
-        `Hola ${nombreUsuario}\nTenemos ${this.cantidad} unidades de ${this.nombre} en Stock`
-      );
-    } else {
-      this.stock == false;
-      alert(
-        `Hola ${nombreUsuario}\nNo tenemos ${this.cantidad} unidades de ${this.nombre} en Stock`
-      );
-    }
-  }
+
+const crearYerba = (nombre, tamaño, precio, cantidad) => {
+  return {
+    nombreYerba: nombre,
+    tamañoYerba: tamaño,
+    precioYerba: precio,
+    cantidadYerba: cantidad,
+  };
 };
-
-class yerbaCliente {
-  constructor(nombre, tamaño, cantidad, precio) {
-    this.nombre = nombre;
-    this.tamaño = tamaño;
-    this.cantidad = cantidad;
-    this.precio = precio;
-  }};
 
 //Comienza Codigo
 
-marketYerba.push(new nuevaYerba("Clasica", "500", 3, 600));
-marketYerba.push(new nuevaYerba("Clasica", "1000", 4, 700));
-marketYerba.push(new nuevaYerba("Clasica", "1500", 5, 800));
+marketYerba.push(new nuevaYerba("Clasica", "500", 600));
+marketYerba.push(new nuevaYerba("Clasica", "1000", 700));
+marketYerba.push(new nuevaYerba("Clasica", "1500", 800));
 
-marketYerba.push(new nuevaYerba("Ahumada", "500", 6, 900));
-marketYerba.push(new nuevaYerba("Ahumada", "1000", 7, 1000));
-marketYerba.push(new nuevaYerba("Ahumada", "1500", 8, 1100));
+marketYerba.push(new nuevaYerba("Ahumada", "500", 900));
+marketYerba.push(new nuevaYerba("Ahumada", "1000", 1000));
+marketYerba.push(new nuevaYerba("Ahumada", "1500", 1100));
 
-marketYerba.push(new nuevaYerba("Aromatizada", "500", 9, 1200));
-marketYerba.push(new nuevaYerba("Aromatizada", "1000", 10, 1300));
-marketYerba.push(new nuevaYerba("Aromatizada", "1500", 11, 1400));
+marketYerba.push(new nuevaYerba("Aromatizada", "500", 1200));
+marketYerba.push(new nuevaYerba("Aromatizada", "1000", 1300));
+marketYerba.push(new nuevaYerba("Aromatizada", "1500", 1400));
 
+// Empezamos con el DOM
+//Modificamos el texto del NavBar usando SessionStorage
 
+let navBarModifica = document.getElementById("texto")
+let nombreUsuario = prompt("Como es tu nombre?"); 
 
-//Aca seleccionamos la yerba a llevar
+sessionStorage.setItem(`Nombre`, nombreUsuario);
+let nombreObtenido = capitalizeFirstLetter(sessionStorage.getItem(`Nombre`));
 
-while (true) {
-  tipoYerba = capitalizeFirstLetter(
-    prompt(
-      `Ingrese el nombre de la yerba que desea comprar:\n\n${marketYerba[0].nombre}\n${marketYerba[3].nombre}\n${marketYerba[6].nombre}\n\n`
-    )
-  );
+navBarModifica.innerHTML = `Bienvenido ${nombreObtenido}. Tenemos los siguientes productos en stock`; 
 
-  const yerbaSeleccionada = marketYerba.find(
-    (yerba) => yerba.nombre === tipoYerba
-  );
+// Aca hacemos que el cliente al hacer click visualice el producto en su Carrito
 
-  if (yerbaSeleccionada) {
-    console.log(`¡${tipoYerba} seleccionada!`);
-    break; 
-  } else {
-    alert(
-      `El nombre ingresado de Yerba "${tipoYerba}", no corresponde a ninguna de las opciones. Por favor, ingrese un nombre válido.`
-    );
-  }
-};
+let carta = document.getElementsByClassName("card");
 
-//Aca seleccionamos el tamaño de la yerba seleccionada
-while (true) {
-  yerbaTamaño =
-    prompt(
-      `Ingrese el tamaño de la yerba ${tipoYerba} que desea comprar:\n\n${marketYerba[0].tamaño}\n${marketYerba[1].tamaño}\n${marketYerba[2].tamaño}\n\n`
-    );
+let claveYerba = 0;
 
-  const tamañoSeleccionado = marketYerba.find(
-    (yerba) => yerba.tamaño === yerbaTamaño
-  );
+for (const yerba of marketYerba) {
+  let contenedor = document.getElementById("contenedorTarjeta");
+  let tarjeta = document.createElement("div");
+  tarjeta.className = "col-4 mb-4";
 
-  if (tamañoSeleccionado) {
-    console.log(`¡${yerbaTamaño} seleccionada!`);
-    break; 
-  } else {
-    alert(
-      `El tamaño ingresado "${yerbaTamaño}" no corresponde a ninguna de las opciones. Por favor, ingrese un nombre válido.`
-    );
-  }
-};
+  tarjeta.innerHTML = `<div class="card">
+    <img src="resources/paquete.png" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Yerba ${yerba.nombre}</h5>
+      <p class="card-text">Tamaño: ${yerba.tamaño}g</p>
+      <p class="card-text">Precio: $${yerba.precio}</p>
+      <a href="#" class="btn btn-primary add-to-cart">Añadir al Carrito</a>
+    </div>
+  </div>`;
 
+  contenedor.appendChild(tarjeta);
 
-//Aca seleccionamos la cantidad a comprar
+  // Agregamos el evento click al botón "Añadir al Carrito"
+  let addToCartButton = tarjeta.querySelector('.add-to-cart');
+  addToCartButton.addEventListener("click", function (event) {
+    event.preventDefault();
 
-while (true) {
-  // Con este codigo vamos a entrar al objeto seleccionado y mostrar la cantidad disponible
-marketYerba.forEach(element => {
-  if (element.nombre == tipoYerba && element.tamaño == yerbaTamaño) {
-      numeroObjeto = element;
-     
-  }
-});
+    let cantidadSeleccionada = prompt("Qué cantidad le gustaría llevar?");
 
-  yerbaCantidad =
-    prompt(
-      `Contamos con la cantidad de ${numeroObjeto.cantidad} unidades, de la yerba ${tipoYerba} de ${yerbaTamaño}g. Ingrese la cantidad que desea llevar:\n\n`
-    );
+    // Verificar si se canceló la selección de cantidad
+    if (cantidadSeleccionada === null) {
+      return; // Salir del evento sin hacer nada
+    }
 
-  if (yerbaCantidad <= numeroObjeto.cantidad) {
-    console.log(`¡${yerbaCantidad} unidades seleccionada/s!`);
-    break; 
-  } else {
-    alert(
-      `La cantidad ingresada de "${yerbaCantidad}" unidades, supera a nuestro stock actual. Ingrese una cantidad igual o menor a la disponible.`
-    );
-  }
-};
+    cantidadSeleccionada = parseInt(cantidadSeleccionada); // Convertir a entero
 
+    // Verificar si la cantidad seleccionada es un número válido y mayor que cero
+    if (isNaN(cantidadSeleccionada) || cantidadSeleccionada <= 0) {
+      alert("Por favor ingrese una cantidad válida mayor que cero.");
+      return; // Salir del evento sin hacer nada
+    }
 
-compraCliente.push(new yerbaCliente(`${tipoYerba}`, `${yerbaTamaño}`, `${yerbaCantidad}`, `${numeroObjeto.precio}`));
+    let total = cantidadSeleccionada * yerba.precio;
 
-console.log(compraCliente);
+    let contenedorCarrito = document.getElementById("carritoCompras");
+    let tarjetaCarrito = document.createElement("div");
+    tarjetaCarrito.className = "col-4 mb-4";
 
-// Mostramos el resultado final de la compra en el carrito del Cliente
+    tarjetaCarrito.innerHTML = `<div class="card">
+      <img src="resources/paquete.png" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Yerba ${yerba.nombre}</h5>
+        <p class="card-text">Tamaño: ${yerba.tamaño}g</p>
+        <p class="card-text">Cantidad: ${cantidadSeleccionada}</p>
+        <p class="card-text">Precio por unidad: $${yerba.precio}</p>
+        <p class="card-text">Total: $${total}</p>
+      </div>
+    </div>`;
 
-  compraCliente.forEach((obj) => {
+    contenedorCarrito.appendChild(tarjetaCarrito);
 
-    const sumaProductos = multiplicar(`${obj.cantidad}`,`${obj.precio}`);
-    const iva = sumarIva(sumaProductos);
-    const totalConIva = suma(sumaProductos, iva);
-
-    alert(`Felicitaciones por comprar ${obj.cantidad} unidad/es de yerba ${obj.nombre} de ${obj.tamaño}g por un precio de $${obj.precio} cada una.\n\nEl total de tus productos es de $${sumaProductos}.\n\nEl total de tus productos con IVA es de $${totalConIva}.`);
+    Toastify({
+      text: "Se agregó el pedido a tu Carrito",
+      duration: 3000
+    }).showToast();
   });
+}
+
+
+// Division entre Productos y Carrito
+
+let division = document.getElementById("divisionPagina");
+
+division.innerHTML = `<h3>Si agregaste productos, los podes ver abajo!!!</h3>`;
+
+
+
+
 
