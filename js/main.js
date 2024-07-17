@@ -6,7 +6,6 @@ let cantidadSeleccionada;
 
 //Arrays
 const marketYerba = [];
-const compraCliente = [];
 
 //Funciones
 const multiplicar = (numeroUno, numeroDos) => {
@@ -63,14 +62,14 @@ marketYerba.push(new nuevaYerba("Aromatizada", "1500", 1400));
 // Empezamos con el DOM
 //Modificamos el texto del NavBar usando SessionStorage
 
-let navBarModifica = document.getElementById("texto")
+/* let navBarModifica = document.getElementById("texto")
 let nombreUsuario = prompt("Como es tu nombre?"); 
 
 sessionStorage.setItem(`Nombre`, nombreUsuario);
 let nombreObtenido = capitalizeFirstLetter(sessionStorage.getItem(`Nombre`));
 
 navBarModifica.innerHTML = `Bienvenido ${nombreObtenido}. Tenemos los siguientes productos en stock`; 
-
+ */
 // Aca hacemos que el cliente al hacer click visualice el producto en su Carrito
 
 let carta = document.getElementsByClassName("card");
@@ -140,14 +139,40 @@ for (const yerba of marketYerba) {
   });
 }
 
-
 // Division entre Productos y Carrito
 
 let division = document.getElementById("divisionPagina");
 
 division.innerHTML = `<h3>Si agregaste productos, los podes ver abajo!!!</h3>`;
 
+// Division de otros productos (Consumiendo un Json)
 
+let otrosProductos = document.getElementById("otrosProductos");
 
+otrosProductos.innerHTML = `<h3>Te mostramos mas productos accesorios</h3>`;
+
+//Creamos Card para los Accesorios
+
+fetch('js/storage.json')
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(producto => {
+      console.log(`Nombre: ${producto.nombre}, Precio: ${producto.precio}`);
+
+      let masProductos = document.getElementById("otrosProductos");
+      let tarjetaProductos = document.createElement("div");
+      tarjetaProductos.className = "col-4 mb-4";
+
+      tarjetaProductos.innerHTML = `<div class="card">
+        <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}">
+        <div class="card-body">
+          <h5 class="card-title">${producto.nombre}</h5>
+          <p class="card-text">Precio: $${producto.precio}</p>
+        </div>
+      </div>`;
+
+      masProductos.appendChild(tarjetaProductos);
+    });
+  });
 
 

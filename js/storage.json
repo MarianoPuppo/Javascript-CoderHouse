@@ -1,0 +1,18 @@
+[
+    {
+      "nombre": "Bombilla",
+      "imagen": "resources/bombilla.webp",
+      "precio": "2000"
+    },
+    {
+      "nombre": "Luz",
+      "imagen": "resources/luzmate.jpg",
+      "precio": "3000"
+    },
+    {
+      "nombre": "Yerbero",
+      "imagen": "resources/yerbero.jpeg",
+      "precio": "3000"
+    }
+]
+  
